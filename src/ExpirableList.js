@@ -64,12 +64,16 @@ class ExpirableList {
   }
 
   #checkExpiredEntries() {
+    if(this.#shouldPause) return;
+
     const expired = this.#findExpiredEntries();
     const combinedSize = expired.size + this.expiredEntries.size;
     if (combinedSize > this.config.maxExpiredEntries) {
       this.clean();
     }
     
+    //TODO: this.#onExpiry can slow this function for many expired entries 
+    // we can delay the  delete
     for (let key of expired.keys()) {
       // console.log(key, "expired")
       const entry = expired.get(key);
@@ -79,9 +83,7 @@ class ExpirableList {
     }
 
     // Schedule next check
-    if(!this.#shouldPause) {
-      setTimeout(() => this.#checkExpiredEntries(), this.config.expiryCheckInterval);
-    }
+    setTimeout(() => this.#checkExpiredEntries(), this.config.expiryCheckInterval);
   }
 
   /**

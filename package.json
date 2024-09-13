@@ -1,0 +1,20 @@
+{
+  "name": "tsds",
+  "version": "1.0.0",
+  "description": "Time Sensitive Data Structure",
+  "main": "src/index.js"
+  "scripts": {
+    "test": "jasmine tests/*_test.js"
+  },
+  "keywords": ["data structure", "time", "list", "map" ],
+  "author": "Amit Gupta (https://solothought.com)",
+  "license": "MIT",
+  "funding": [{
+    "type": "github",
+    "url": "https://github.com/sponsors/NaturalIntelligence"
+  }],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NaturalIntelligence/tsds"
+  }
+}
