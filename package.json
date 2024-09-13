@@ -2,7 +2,7 @@
   "name": "tsds",
   "version": "1.0.0",
   "description": "Time Sensitive Data Structure",
-  "main": "src/index.js"
+  "main": "src/index.js",
   "scripts": {
     "test": "jasmine tests/*_test.js"
   },
