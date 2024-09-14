@@ -1,7 +1,7 @@
 {
-  "name": "tsds",
-  "version": "1.0.0",
-  "description": "Time Sensitive Data Structure",
+  "name": "thds",
+  "version": "1.1.0",
+  "description": "Time Handling Data Structure",
   "main": "src/index.js",
   "scripts": {
     "test": "jasmine tests/*_test.js"
@@ -15,6 +15,6 @@
   }],
   "repository": {
     "type": "git",
-    "url": "https://github.com/NaturalIntelligence/tsds"
+    "url": "https://github.com/NaturalIntelligence/thds"
   }
 }

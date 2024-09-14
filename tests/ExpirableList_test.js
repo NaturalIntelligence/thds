@@ -113,7 +113,36 @@ describe("Expirable List", function() {
     }, 3600);
   });
   
+  it("should expire an element with custom expiry", function(done) {
+    let seqCount = 0;
+    let cleanUpHappened = false;
+    const expiringSeq = [12345, "abc"];
+    const onExpiry = (key, data) => {
+      expect(key).toEqual(expiringSeq[seqCount++]);
+    }
+    const onCleanup = () => {
+      cleanUpHappened = true;
+      // console.log("Removing Expired data @ ", Date.now()-now);
+    } 
+    const list = new ExpirableList({entryLifespan: 1000, cleanupInterval: 2000},onExpiry, onCleanup);
+    now= Date.now();
+    list.add(12345);
+    list.add("abc", { data: "something"}, 1500);
+
+    setTimeout(() => list.delayExpiry("abc"), 1000);
     
+    setTimeout(() => validate(list,[12345,"abc"],[]), 501); //12345, "abc" both are non expired
+    setTimeout(() => validate(list,["abc"],[12345]), 1100);//12345 expired, "abc" not expired
+    setTimeout(() => validate(list,["abc"],[12345]), 1800);//"abc" will be expired in next cycle 
+    setTimeout(() => validate(list,["abc"],[]), 2600);//"abc" will be expired in next cycle 
+    setTimeout(() => validate(list,[],["abc"]), 3100);//expired at 2nd cycle
+    setTimeout(() => {
+      validate(list,[],[]);
+      list.pause();
+      expect(cleanUpHappened ).toBeTrue();
+      done();
+    }, 4100);//12345, "abc" both are cleaned
+  });
 });
 
 function validate(list, nonExpired, expired){

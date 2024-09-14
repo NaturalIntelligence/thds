@@ -34,11 +34,11 @@ class ExpirableList {
     this.#checkExpiredEntries();
   }
 
-  add(key, data) {
+  add(key, data, lifeSpan) {
     if(typeof key === 'object') throw Error("only primitive types are supported")
     // const id = generateId();
     const timestamp = Date.now();
-    this.entries.set(key,{d: data, t:timestamp});
+    this.entries.set(key,{d: data, t:timestamp, e:lifeSpan||this.config.entryLifespan});
   }
   get(key) {
     const val = this.entries.get(key);
@@ -72,7 +72,7 @@ class ExpirableList {
       this.clean();
     }
     
-    //TODO: this.#onExpiry can slow this function for many expired entries 
+    //TODO: this.#onExpiry can slow this function for so many expired entries 
     // we can delay the  delete
     for (let key of expired.keys()) {
       // console.log(key, "expired")
@@ -97,7 +97,7 @@ class ExpirableList {
     for (let [key, entry] of this.entries) { //find expired entries
       const life = now - entry.t;
       // console.log("Life of ", key,":", life);
-      if (life >= this.config.entryLifespan) {
+      if (life >= entry.e) {
         localExpired.set(key, entry);
       }
     }

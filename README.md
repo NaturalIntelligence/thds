@@ -1,5 +1,5 @@
-# tsds
-Time Sensitive Data Structure in Java script
+# thds
+Time Handling Data Structure in Java script
 
 ## Expirable List
 Entries moves to list of expired elements after a certain time. And deleted after defined conditions are met. You can use this datatype in multiple ways, Eg
@@ -20,6 +20,7 @@ const list = new ExpirableList({
 
 list.add(12345);
 list.add("abc", { data: "something"});
+list.add("custom life", { data: "something"}, 1500);
 const data = list.get("abc");
 :
 list.delayExpiry("abc"), 600);
